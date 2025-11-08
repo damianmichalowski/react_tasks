@@ -25,7 +25,11 @@ export async function getUsers(query: string, page = 1, per_page = 100) {
     params.set('page', String(Math.max(1, page)))
     params.set('per_page', String(Math.min(100, per_page)))
 
-    const res = await fetch(`${BASE}/users?${params.toString()}`)
+    const res = await fetch(`${BASE}/users?${params.toString()}`, {
+      headers: {
+        ...authHeaders(),
+      },
+    })
     if (!res.ok) throw new Error('Get users failed')
     return await res.json()
   } catch (error) {
